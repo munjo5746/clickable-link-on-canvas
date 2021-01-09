@@ -52,6 +52,11 @@ export default function App() {
         type="text"
         style={{ display: "none", position: "absolute" }}
       />
+      <a
+        id="invisible-link"
+        href="#"
+        style={{ display: "block", position: "absolute" }}
+      ></a>
       <button
         onClick={(e) => {
           e.preventDefault();
@@ -74,6 +79,7 @@ export default function App() {
           });
 
           canvas.add(area);
+          setArea(area);
 
           const input = document.getElementById(
             "url-input"
@@ -98,6 +104,24 @@ export default function App() {
       <button
         onClick={(e) => {
           e.preventDefault();
+
+          if (!area) return;
+
+          const input = document.getElementById(
+            "url-input"
+          ) as HTMLInputElement;
+          input!.style.display = "none";
+
+          const link = document.getElementById(
+            "invisible-link"
+          ) as HTMLLinkElement;
+          link.href = input.value;
+          link.style.top = `${area.top!}px`;
+          link.style.left = `${area.left}px`;
+          link.style.width = `${area.width! * area.scaleX!}px`;
+          link.style.height = `${area.height! * area.scaleY!}px`;
+
+          canvas?.remove(area);
         }}
       >
         Complete
